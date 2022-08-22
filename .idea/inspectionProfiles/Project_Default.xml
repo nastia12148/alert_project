@@ -1,0 +1,31 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="tuple.IOS_App_Id" />
+          <option value="tuple.Title" />
+          <option value="tuple.Developer_Name" />
+          <option value="tuple.Developer_IOS_Id" />
+          <option value="tuple.IOS_Store_Url" />
+          <option value="tuple.Seller_Official_Website" />
+          <option value="tuple.Age_Rating" />
+          <option value="tuple.Total_Average_Rating" />
+          <option value="tuple.Total_Number_of_Ratings" />
+          <option value="tuple.Average_Rating_For_Version" />
+          <option value="tuple.Number_of_Ratings_For_Version" />
+          <option value="tuple.Original_Release_Date" />
+          <option value="tuple.Current_Version_Release_Date" />
+          <option value="tuple.Price_USD" />
+          <option value="tuple.Primary_Genre" />
+          <option value="tuple.All_Genres" />
+          <option value="tuple.Languages" />
+          <option value="tuple.Description" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>
