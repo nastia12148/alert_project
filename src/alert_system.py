@@ -1,9 +1,4 @@
 import pandas as pd
-from datetime import datetime
-import pyspark
-#from pyarrow import StructType
-from pyspark.sql import SparkSession
-from pyspark.sql.types import StructField, IntegerType, StringType, BooleanType, DoubleType, StructType
 
 
 def log_reader(filepath):
@@ -42,59 +37,42 @@ def log_reader(filepath):
     return df
 
 
-def alert(df: pd.DataFrame):
+def alert(df: pd.DataFrame, time:int = 60):
     df = df[df["severity"] == "Error"]
     row_number = 0
     beg_time = df["date"].head(1)[0]
     alert_counter = 0
 
     while row_number < len(df) - 10:
-        error_list = df[(beg_time - df["date"]) <= 60].head(10)
+        error_list = df[(beg_time - df["date"]) <= time].head(10)
         if len(error_list) >= 10:
-            # print("Alert!")
-            # if go_next():
-            row_number += 10
+            print("Alert!")
+            row_number += 1
             alert_counter += 1
-            beg_time = df.iloc[row_number, 23]
+            beg_time = df.iloc[row_number, 2]
         else:
             row_number += 1
-            beg_time = df.iloc[row_number, 23]
+            beg_time = df.iloc[row_number, 2]
 
     return alert_counter
 
 
 def alert_by_id(df: pd.DataFrame, bundle_id: str):
     df = df[df["bundle_id"] == bundle_id]
-    df = df[df["severity"] == "Error"]
 
-    row_number = 0
-    beg_time = df["date"].head(1)[0]
-
-    while True:
-        error_list = df[(beg_time - df["date"]) <= 3600].head(10)
-        if len(error_list) >= 10:
-            print("Alert!")
-        if go_next():
-            row_number += 1
-            beg_time = df.iloc[row_number, 23]
-        else:
-            break
-
-    return error_list
+    return alert(df, 3600)
 
 
-def go_next():
+'''def go_next():
     yes_or_no = input("Do you want to continue?[yes/no]: ")
     if yes_or_no == "yes":
         return True
 
-    return False
+    return False'''
 
 
 
-df = log_reader('/home/nastia12148/PycharmProjects/data/data.csv')
+df = log_reader('data.csv')
 
-
-
-
-print(alert(df))
+#print(alert(df))
+print(alert_by_id(df, 'com.thg.battleops.shooting.game'))

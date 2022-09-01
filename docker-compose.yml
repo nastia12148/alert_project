@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  python:
+    image: alert_system
+    container_name: alert_system
+    build:
+      context: ./src
+
+
+
+
+
+
+
