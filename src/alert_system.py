@@ -1,5 +1,7 @@
+import hypothesis as hypothesis
 import pandas as pd
 import logging
+
 
 
 def log_reader(filepath):
@@ -35,7 +37,7 @@ def log_reader(filepath):
         skiprows=1,
     )
 
-    log_table = log_table[["severity", "bundle_id", "date"]]
+    log_table = log_table.loc[:, ["severity", "bundle_id", "date"]]
 
     print(log_table.head())
 
