@@ -47,12 +47,12 @@ def log_reader(filepath):
 def alert(log_table: pd.DataFrame, time: int = 60):
     log_table = log_table[log_table["severity"] == "Error"]
     row_number = 0
-    beg_time = log_table["date"].head(1)[0]
+    beg_time = log_table.iloc[0, 2]
     alert_counter = 0
 
     while row_number < len(log_table) - 10:
         error_list = log_table[(beg_time - log_table["date"]) <= time].head(10)
-        if len(error_list) >= 10:
+        if len(error_list) > 10:
             print("Alert!")
             row_number += 1
             alert_counter += 1
