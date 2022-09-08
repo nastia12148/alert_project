@@ -1,7 +1,5 @@
-import hypothesis as hypothesis
 import pandas as pd
 import logging
-
 
 
 def log_reader(filepath):
@@ -46,14 +44,18 @@ def log_reader(filepath):
 
 def alert(log_table: pd.DataFrame, time: int = 60):
     log_table = log_table[log_table["severity"] == "Error"]
+
+    if log_table.empty:
+        return 0
+
     row_number = 0
     beg_time = log_table.iloc[0, 2]
     alert_counter = 0
 
-    while row_number < len(log_table) - 10:
-        error_list = log_table[(beg_time - log_table["date"]) <= time].head(10)
+    while row_number < len(log_table) - 11:
+        error_list = log_table[(beg_time - log_table["date"]) <= time].head(11)
         if len(error_list) > 10:
-            print("Alert!")
+            # print("Alert!")
             row_number += 1
             alert_counter += 1
             beg_time = log_table.iloc[row_number, 2]
@@ -70,7 +72,7 @@ def alert_by_id(log_table: pd.DataFrame, bundle_id: str):
     return alert(log_table, 3600)
 
 
-df = log_reader("data/data.csv")
+# df = log_reader("data/data.csv")
 
 # print(alert(df))
-print(alert_by_id(df, "com.thg.battleops.shooting.game"))
+# print(alert_by_id(df, "com.thg.battleops.shooting.game"))
