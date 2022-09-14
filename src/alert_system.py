@@ -1,6 +1,8 @@
 import pandas as pd
 import logging
 
+logger = logging.getLogger(__name__)
+
 
 def log_reader(filepath):
     log_table = pd.read_csv(
@@ -35,9 +37,11 @@ def log_reader(filepath):
         skiprows=1,
     )
 
+    logger.info("file is read")
+
     log_table = log_table.loc[:, ["severity", "bundle_id", "date"]]
 
-    print(log_table.head())
+    logger.info("returned table is:\n" + str(log_table.head()))
 
     return log_table
 
@@ -46,6 +50,7 @@ def alert(log_table: pd.DataFrame, time: int = 60):
     log_table = log_table[log_table["severity"] == "Error"]
 
     if log_table.empty:
+        logger.info("log table is empty")
         return 0
 
     row_number = 0
@@ -55,7 +60,7 @@ def alert(log_table: pd.DataFrame, time: int = 60):
     while row_number < len(log_table) - 11:
         error_list = log_table[(beg_time - log_table["date"]) <= time].head(11)
         if len(error_list) > 10:
-            # print("Alert!")
+            logger.warning("Alert!")
             row_number += 1
             alert_counter += 1
             beg_time = log_table.iloc[row_number, 2]
@@ -63,7 +68,7 @@ def alert(log_table: pd.DataFrame, time: int = 60):
             row_number += 1
             beg_time = log_table.iloc[row_number, 2]
 
-    return alert_counter
+    return str("Amount of more than 11 alerts: " + str(alert_counter))
 
 
 def alert_by_id(log_table: pd.DataFrame, bundle_id: str):
@@ -72,7 +77,7 @@ def alert_by_id(log_table: pd.DataFrame, bundle_id: str):
     return alert(log_table, 3600)
 
 
-# df = log_reader("data/data.csv")
+df = log_reader("data/data.csv")
 
-# print(alert(df))
+print(alert(df))
 # print(alert_by_id(df, "com.thg.battleops.shooting.game"))
