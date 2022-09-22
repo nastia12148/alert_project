@@ -2,7 +2,7 @@ FROM python:3.8
 
 RUN pip freeze > requirements.txt
 
-ADD alert_system.py /
+ADD alerting/alert_system.py /
 ADD requirements.txt /
 ADD data/data.csv /
 
