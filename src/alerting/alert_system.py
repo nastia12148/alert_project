@@ -47,8 +47,7 @@ def log_reader(filepath):
 
 
 def alert(log_table: pd.DataFrame, time: int = 60):
-    log_table = log_table[log_table["severity"] == "Error"]
-    log_table = log_table.sort_values(by="date")
+    log_table = log_table[log_table["severity"] == "Error"].sort_values(by="date")
     idx = log_table[log_table["severity"] == "Error"].index
 
     if log_table.empty:
